@@ -1,7 +1,7 @@
 #include <stdlib>
 #include <vector>
 #include <string>
-
+#include <math.h>
 using namespace std;
 
 
@@ -51,12 +51,21 @@ int main( int argc, char** argv )
  * Compute the positions 
  */
 void samplingParameter(Coordinate[] x, Coordinate[] theta, int delta_max){
+
 	//fitting position and size of UV to theta and of ST to x
-	//find center of gravity
+	//Surface fitting
 	Coordinate theta_center = centerGravity(theta);
 	Coordinate x_center = centerGravity(x);
 
 	theta_center.difference(x_center);
 	int fitting = norm(theta_center.x, theta_center.y);
 	
+    //SAMPLING RATES//
+   
+    int dmin, dmax;  // need to calculate minimum and maximum depths in theta
+
+    int rh, alphah;  // need to get camera's horizontal image resolution and field of view angle 
+
+    int distanceST = ((delta_max*2*tan(alphah/2))/rh)*((1/dmin)-(1/dmax));
+
 }
