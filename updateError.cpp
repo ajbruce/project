@@ -19,6 +19,11 @@ using namespace std;
  *for each ray bundle, minimize the error function, which is
  * 1-(frac of area auv)
  */
-Pose findNextPose(int * error, Lightfield * currField) {
+Coordinate findNextPose(Lightfield * currField) {
 
+    int error = 1;
+
+    for ( int i = 0; i < currField->samplingPoses; ++i) {
+        
+    }
 }
