@@ -1,10 +1,12 @@
 #include <stdlib>
 #include <vector>
-#include <string
+#include <string>
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
+
+using namespace std;
 
 typedef struct Coordinate
 {
@@ -35,5 +37,18 @@ class RayBundle {
 };
 
 class LightField {
+
+    //lightFieldArray[s][t][u][v]
+    int lightFieldArray[][][][];
+    array <Coordinate> samplingPath;
+    //dimensions- (s,t)-poses; (u,v)-points
+    int s;
+    int t;
+    int u;
+    int v;
+    //tolerance thresholds
+    int tMin;
+    int tMax;
+
 
 };
