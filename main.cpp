@@ -50,7 +50,7 @@ int main( int argc, char** argv )
 /**
  * Compute the positions 
  */
-void samplingParameter(Coordinate[] x, Coordinate[] theta, int delta_max){
+void samplingParameter(Mat[] &x, Mat[] &theta, int delta_max){
 
 	//fitting position and size of UV to theta and of ST to x
 	//Surface fitting
@@ -58,7 +58,8 @@ void samplingParameter(Coordinate[] x, Coordinate[] theta, int delta_max){
 	Coordinate x_center = centerGravity(x);
 
 	theta_center.difference(x_center);
-	int fitting = norm(theta_center.x, theta_center.y);
+	//find norm
+//	int fitting = norm(theta_center.x, theta_center.y);
 	
     //SAMPLING RATES//
    
