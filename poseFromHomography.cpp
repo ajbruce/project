@@ -7,7 +7,11 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
 
-void poseFromHomography(const Mat& H, Mat& pose)
+
+#define FAILURE -1
+#define SUCCESS 0
+
+int poseFromHomography(const Mat& H, Mat& pose)
 {
     pose = Mat::eye(3, 4, CV_32FC1);
     float norm1 = (float)norm(H.col(0));  
@@ -32,4 +36,6 @@ void poseFromHomography(const Mat& H, Mat& pose)
     p3.copyTo(c2);       // Third column is the crossproduct of columns one and two
 
     pose.col(3) = H.col(2) / tnorm;  //vector t [R|t] is the last column of pose
+    
+    return SUCCESS;
 }
