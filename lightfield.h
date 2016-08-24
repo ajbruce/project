@@ -41,6 +41,7 @@ class LightField {
     //lightFieldArray[s][t][u][v]
     int lightFieldArray[][][][];
     array <Mat> samplingPath;
+    Mat * originImage;
     //dimensions- (s,t)-poses; (u,v)-points
     int s;
     int t;
