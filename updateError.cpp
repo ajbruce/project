@@ -21,9 +21,30 @@ using namespace std;
  */
 Coordinate findNextPose(Lightfield * currField) {
 
-    int error = 1;
+    int i = 0;
+    int j = 0;
+    int k = 0;
+    int l = 0;
+    //go through each ray bundle
+    for (i; i < currField->s; ++i) {
+    	for (j; j < currField->t; ++j) {
+    		for (k; k < currField->u; ++k) {
+    			for (l; l < currField->v; ++l) {
 
-    for ( int i = 0; i < currField->samplingPoses; ++i) {
-        
+    				//go through all previous poses on sampling path
+    				int c = 0;
+					int error = 100;
+					for(Coordinate * currPose : currField->samplingPath) {
+						int newError = findNewError(currPose);
+    				}
+    				currField->bundleArray[i][j][k][l].error = newError;
+    			}
+    		}
+    	}
     }
+
+}
+
+int findNewError(Coordinate * pose) {
+
 }
