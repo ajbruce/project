@@ -7,9 +7,8 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
 
-void cameraPoseFromHomography(const Mat& H, Mat& pose)
+void poseFromHomography(const Mat& H, Mat& pose)
 {
-    pose = Mat::eye(3, 4, CV_32FC1);      // 3x4 matrix, the camera pose
     float norm1 = (float)norm(H.col(0));  
     float norm2 = (float)norm(H.col(1));  
     float tnorm = (norm1 + norm2) / 2.0f; // Normalization value
