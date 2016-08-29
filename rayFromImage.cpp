@@ -15,7 +15,9 @@ using namespace std;
 #include <iostream>
 
 using namespace cv;
-using namespace std;
+
+#define FAILURE -1
+#define SUCCESS 0
 
 /**
  *Function that adds the data from the image to the
@@ -30,8 +32,10 @@ int rayFromImage(Lightfield * currField, Mat * image) {
 	
 	// 3x4 matrix, the camera pose
 	Mat pose;
-	
-	poseFromHomography(H, pose);
+
+	if(poseFromHomography(H, pose) == FAILURE) {
+		return FAILURE;
+	}
 
 
 
