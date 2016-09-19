@@ -8,6 +8,15 @@
 
 using namespace std;
 
+#define NUMFRAMINGIMAGES 6
+
+typedef pair<int, int> orderedPair
+typedef pair<orderedPair, int> orderedPairAndPixel
+typedef map<orderedPair, orderedPairAndPixel> lightfieldStruct
+
+
+
+//probably not used any more
 typedef struct Coordinate
 {
     int x;
@@ -22,6 +31,7 @@ public:
 } Coordinate;
 
 
+//probably not used any more
 class RayBundle {
     Mat pose;
     Coordinate point;
@@ -36,12 +46,15 @@ class RayBundle {
 
 };
 
-class LightField {
+class LightFieldClass {
 
-    //lightFieldArray[s][t][u][v]
-    int lightFieldArray[][][][];
-    array <Mat *> samplingPath;
+	lightfieldStruct lightfield;
     vector <Mat *> frameImages;
+	vector <Mat> homographiesOfFrameImages;
+	vector <Mat> posesOfFrameImages;
+	
+    vector <Mat *> samplingPath;
+    
     //dimensions- (s,t)-poses; (u,v)-points
     int s;
     int t;
