@@ -2,19 +2,17 @@
 #include <vector>
 #include <string>
 #include <math.h>
-using namespace std;
-
-
-//Create array of images from input
-
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
 
+#include "makeTheFrame.cpp"
+#include "getTheData.cpp"
+#include "lightfield.h"
+
 using namespace cv;
 using namespace std;
 
-vector<Mat> images;
 
 /**
  * receive an array of images and create a lightfield
@@ -26,24 +24,47 @@ int main( int argc, char** argv )
      cout <<" Usage: display_image ImageToLoadAndDisplay" << endl;
      return -1;
     }
+    
+    LightfieldClass lightfield;
 
     Mat image;
-    for(int i = 1; i < argc; i++){
-    	
-    	image = imread(argv[i], CV_LOAD_IMAGE_GRAYSCALE);
-    	if(! image.data )                              // Check for invalid input
+    int i;
+    for(int i; i < argc + 1; i++){
+		
+    	image = imread(argv[i + 1], CV_LOAD_IMAGE_GRAYSCALE);
+    	// Check for invalid input
+    	if(!image.data )                              
     	{
-        	cout <<  "Error: could not open image" << std::endl ;
+        	cout <<  "Error: could not open image" << endl ;
         	return -1;
    		}
-    	images.push_back(image);
+   		if(i < NUMFRAMINGIMAGES) {
+			lightfield->frameImages.push_back(&image);
+		}
+		else {
+			lightfield->samplingPath.push_back(&image);
+		}
     }
-       // Read the file
-
-    // namedWindow( "Display window", WINDOW_AUTOSIZE );// Create a window for display.
-    // imshow( "Display window", image );                   // Show our image inside it.
-
-    // waitKey(0);                                          // Wait for a keystroke in the window
+    
+    int res;
+    
+    res = makeTheFrame(&lightfield);
+    
+    if(!res) {
+		cout <<  "Error: could not create the frame" << endl;
+        return -1;
+	}
+    
+    
+    res = getTheData(&lightfield);
+    
+    if(!res) {
+		cout <<  "Error: could not create get the data" << endl;
+        return -1;
+	}
+    
+    
+    
     return 0;
 }
 
@@ -59,7 +80,7 @@ void samplingParameter(Mat[] &x, Mat[] &theta, int delta_max){
 
 	theta_center.difference(x_center);
 	//find norm
-//	int fitting = norm(theta_center.x, theta_center.y);
+	//	int fitting = norm(theta_center.x, theta_center.y);
 	
     //SAMPLING RATES//
    
