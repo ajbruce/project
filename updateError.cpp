@@ -1,16 +1,13 @@
 #include <stdlib>
 #include <vector>
 #include <string>
-#include "lightfield.h"
-
-using namespace std;
-
-
-//Create array of images from input
-
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
+
+
+#include "lightfield.h"
+
 
 using namespace cv;
 using namespace std;
