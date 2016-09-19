@@ -16,6 +16,13 @@ using namespace std;
 
 /**
  * receive an array of images and create a lightfield
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * HI ITS AJ
  */
 int main( int argc, char** argv )
 {
