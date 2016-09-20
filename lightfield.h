@@ -9,6 +9,10 @@
 using namespace std;
 
 #define NUMFRAMINGIMAGES 6
+#define IMAGERESOLUTIONX 480
+#define IMAGERESOLUTIONY 640
+
+
 
 typedef pair<int, int> orderedPair
 typedef pair<orderedPair, int> orderedPairAndPixel
