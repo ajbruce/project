@@ -11,9 +11,6 @@
 
 using namespace cv;
 
-#define FAILURE -1
-#define SUCCESS 0
-
 /**
  *Function that adds the data from the image to the
  *lightfield.  Uses homography helper functions to find the 
@@ -34,7 +31,7 @@ int makeTheFrame(Lightfield * currField) {
 	}
 	
 	int i = 1;
-	for (i; i < NUMFRAMINGIMAGES - 1; ++it) {
+	for (i; i < NUM_FRAMING_IMAGES - 1; ++it) {
 		
 		Mat H;
 		res = calculateHomography(currField->frameImages.at(i), 
@@ -52,7 +49,7 @@ int makeTheFrame(Lightfield * currField) {
 	//now find total homographies.  first one is obviously 1. second one stays the same.
 	
 	int j = 2;
-	for(j; j < NUMFRAMINGIMAGES; ++j) {
+	for(j; j < NUM_FRAMING_IMAGES; ++j) {
 		
 		//check that this matrix mult is in the correct order
 		currField->homographiesOfFrameImages.at(j) = 
@@ -61,8 +58,8 @@ int makeTheFrame(Lightfield * currField) {
 	
 	}
 	
-	//find poses
-	for(j; j < NUMFRAMINGIMAGES; ++j) {
+	//find total poses
+	for(j; j < NUM_FRAMING_IMAGES; ++j) {
 		Mat pose; 
 		if(poseFromHomography(totalH, pose) == FAILURE) {
 			return FAILURE;
