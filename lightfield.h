@@ -8,47 +8,21 @@
 
 using namespace std;
 
-#define NUMFRAMINGIMAGES 6
-#define IMAGERESOLUTIONX 480
-#define IMAGERESOLUTIONY 640
+#define FAILURE -1
+#define SUCCESS 0
 
+#define NUM_FRAMING_IMAGES 6
+
+#define IMAGE_RESOLUTION_X 480
+#define IMAGE_RESOLUTION_Y 640
+
+#define POSE_RESOLUTION_X 
+#define POSE_RESOLUTION_Y 
 
 
 typedef pair<int, int> orderedPair
 typedef pair<orderedPair, int> orderedPairAndPixel
 typedef map<orderedPair, orderedPairAndPixel> lightfieldStruct
-
-
-
-//probably not used any more
-typedef struct Coordinate
-{
-    int x;
-    int y;
-
-public:
-    Coordinate (int x, int y) : x(x), y(y) {}
-    Coordinate difference (Coordinate & other)
-    {
-        return Coordinate(this->x - other.x, this->y - other.y);
-    }
-} Coordinate;
-
-
-//probably not used any more
-class RayBundle {
-    Mat pose;
-    Coordinate point;
-    int sizeVertical;
-    int sizeHorizontal;
-
-    RayBundle(Mat pose, Coordinate point, int sizeVertical,
-              int sizeHorizontal) : pose(pose), point(point),
-                                    sizeVertical(sizeVertical),
-                                    sizeHorizontal(sizeHorizontal) {}
-
-
-};
 
 class LightFieldClass {
 
