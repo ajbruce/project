@@ -17,12 +17,6 @@ using namespace std;
 /**
  * receive an array of images and create a lightfield
  * 
- * 
- * 
- * 
- * 
- * 
- * HI ITS AJ
  */
 int main( int argc, char** argv )
 {
@@ -32,12 +26,13 @@ int main( int argc, char** argv )
      return -1;
     }
     
-    LightfieldClass lightfield;
+    LightfieldClass * lightfield = new LightfieldClass()s;
 
     Mat image;
     int i;
     for(int i; i < argc + 1; i++){
 		
+		//loads image as grayscale
     	image = imread(argv[i + 1], CV_LOAD_IMAGE_GRAYSCALE);
     	// Check for invalid input
     	if(!image.data )                              
@@ -45,7 +40,12 @@ int main( int argc, char** argv )
         	cout <<  "Error: could not open image" << endl ;
         	return -1;
    		}
-   		if(i < NUMFRAMINGIMAGES) {
+   		if(i < NUM_FRAMING_IMAGES) {
+   			//resize the image so that it is the correct resulution
+			Size size(IMAGE_RESOLUTION_X, IMAGE_RESOLUTION_X);
+   			resize(image,image,size)
+   			
+   			//insert the resized image into the lightfield
 			lightfield->frameImages.push_back(&image);
 		}
 		else {
@@ -55,21 +55,20 @@ int main( int argc, char** argv )
     
     int res;
     
-    res = makeTheFrame(&lightfield);
+    res = makeTheFrame(lightfield);
     
-    if(!res) {
+    if(res == FAILURE) {
 		cout <<  "Error: could not create the frame" << endl;
         return -1;
 	}
     
     
-    res = getTheData(&lightfield);
+    res = getTheData(lightfield);
     
-    if(!res) {
-		cout <<  "Error: could not create get the data" << endl;
+    if(res == FAILURE) {
+		cout <<  "Error: could not get the data" << endl;
         return -1;
 	}
-    
     
     
     return 0;
