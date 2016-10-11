@@ -51,8 +51,9 @@ int getTheData(Lightfield * currField) {
 		}
 		
 		//call rayFromImage function	
-		
-		
+		if(rayFromImage(currField, im, totalH, pose) == FAILURE) {
+			return FAILURE;
+		}		
 	}
-	
+	return SUCCESS;
 }
