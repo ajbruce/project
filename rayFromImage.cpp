@@ -21,50 +21,33 @@ using namespace cv;
  *
  **/
 int rayFromImage(Lightfield * currfield, Mat * image, Mat * H, Mat * pose) {
-
-	int s;
-	int t;
-	int x;
-	int y;
  
-	for(s = 0; s < POSE_RESOLUTION_X; ++s ) {
-		for(t = 0; t < POSE_RESOLUTION_Y; ++t) {
-
-			Point2f& posePt;
-			Point2f& posePt_result;
+	for(int s = 0; s < POSE_RESOLUTION_X; ++s ) {
+		for(int t = 0; t < POSE_RESOLUTION_Y; ++t) {
 
 			
+			std::vector<Point2f> origin_pose;
+  			origin_pose.push_back(Point(s,t)); 
+  			std::vector<Point2f> transformed_pose;
 
-			vector<Point> posePt;
-	   		posePt.push_back(Point(s, t));
-			warpPerspective()
+  			perspectiveTransform(origin_pose, transformed_pose, pose);
+		
 			
 
-			for(x = 0; x < IMAGE_RESOLUTION_X; ++x) {
-				for(y = 0; y < IMAGE_RESOLUTION_Y; ++y) {
+			for(int x = 0; x < IMAGE_RESOLUTION_X; ++x) {
+				for(int y = 0; y < IMAGE_RESOLUTION_Y; ++y) {
 
-					const Point2f& _lu
-					const Point2f& _lu_result
+					std::vector<Point2f> origin_point;
+  					origin_point.push_back(Point(x,y)); 
+  					std::vector<Point2f> transformed_point;
 
-					cv::Mat& _transform_matrix)
+  					perspectiveTransform(origin_point, transformed_point, H);
 
-					cv::Point2f source_points[1];
-					cv::Point2f dest_points[1];
+  					std::pair <Point2f, int> poseAndPixel = std::make_pair(transformed_pose, image.at<uchar>(Point(x, y)));
 
+  					currfield->lightfield.push_back(transformed_point, poseAndPixel);
 
-					source_points[0] = _lu;
-					source_points[1] = _ru;
-					source_points[2] = _rd;
-					source_points[3] = _ld;
-
-					dest_points[0] = _lu_result;
-					dest_points[1] = _ru_result;
-					dest_points[2] = _rd_result;
-					dest_points[3] = _ld_result;
-
-					cv::Mat dst;
-					_transform_matrix = cv::getPerspectiveTransform(source_points, dest_points);
-					cv::warpPerspective(_image, dst, H);
+				
 
 				}
 			}
