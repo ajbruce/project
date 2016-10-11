@@ -16,13 +16,12 @@ using namespace std;
 #define IMAGE_RESOLUTION_X 480
 #define IMAGE_RESOLUTION_Y 640
 
-#define POSE_RESOLUTION_X 
-#define POSE_RESOLUTION_Y 
+#define POSE_RESOLUTION_X 120
+#define POSE_RESOLUTION_Y 160
 
 
-typedef pair<int, int> orderedPair
-typedef pair<orderedPair, int> orderedPairAndPixel
-typedef map<orderedPair, orderedPairAndPixel> lightfieldStruct
+typedef pair<Point2f, int> pointAndPixel
+typedef map<Point2f, pointAndPixel> lightfieldStruct
 
 class LightFieldClass {
 
