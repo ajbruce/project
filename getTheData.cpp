@@ -23,7 +23,7 @@ int getTheData(Lightfield * currField) {
 	
 	vector<Mat *>::iterator it = currField->samplingPath.begin();
 	
-	for (it ; it != currField->frameImages.end(); ++it) {
+	for (it ; it != currField->samplingPath.end(); ++it) {
 		
 		Mat H;
 		int res = FAILURE;
