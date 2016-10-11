@@ -21,7 +21,7 @@ using namespace cv;
 int getTheData(Lightfield * currField) {
 	
 	
-	vector<Mat *>::iterator it = currField->frameImages.begin();
+	vector<Mat *>::iterator it = currField->samplingPath.begin();
 	
 	for (it ; it != currField->frameImages.end(); ++it) {
 		
