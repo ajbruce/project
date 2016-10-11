@@ -16,23 +16,17 @@ using namespace cv;
  *have the dimensions of the image so we can put the data
  *from the image into our lightfield structure.
  *
- *
- *
- *
  **/
 int rayFromImage(Lightfield * currfield, Mat * image, Mat * H, Mat * pose) {
  
 	for(int s = 0; s < POSE_RESOLUTION_X; ++s ) {
 		for(int t = 0; t < POSE_RESOLUTION_Y; ++t) {
 
-			
 			std::vector<Point2f> origin_pose;
   			origin_pose.push_back(Point(s,t)); 
   			std::vector<Point2f> transformed_pose;
 
   			perspectiveTransform(origin_pose, transformed_pose, pose);
-		
-			
 
 			for(int x = 0; x < IMAGE_RESOLUTION_X; ++x) {
 				for(int y = 0; y < IMAGE_RESOLUTION_Y; ++y) {
@@ -42,17 +36,15 @@ int rayFromImage(Lightfield * currfield, Mat * image, Mat * H, Mat * pose) {
   					std::vector<Point2f> transformed_point;
 
   					perspectiveTransform(origin_point, transformed_point, H);
-
-  					std::pair <Point2f, int> poseAndPixel = std::make_pair(transformed_pose, image.at<uchar>(Point(x, y)));
-
-  					currfield->lightfield.push_back(transformed_point, poseAndPixel);
-
-				
-
+					std::pair <Point2f, int> poseAndPixel = 
+						std::make_pair(transformed_pose, image.at<uchar>(Point(x, y)));
+					currfield->lightfield.push_back(transformed_point, poseAndPixel);
 				}
 			}
 
 		}
 	}
+	
+	return SUCCESS;
 
 }
