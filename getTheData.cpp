@@ -43,7 +43,7 @@ int getTheData(Lightfield * currField) {
 		
 		//find the total homography of current image from the first frame
 		//unclear if this matrix mult is in the correct order
-		Mat totalH = homographiesOfFrameImages.at(i) * H;
+		Mat totalH = currField->homographiesOfFrameImages.at(i) * H;
 		Mat pose;
 
 		if(poseFromHomography(totalH, pose) == FAILURE) {
