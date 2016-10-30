@@ -18,7 +18,7 @@ using namespace cv;
  *lightfield. If there is already data there, then it takes the
  *average
  */
-int makeTheFrame(Lightfield * currField) {
+int makeTheFrame(LightFieldClass * currField) {
 	
 	
 	int res = calculateHomography(currField->frameImages.at(0), currField->frameImages.at(0), H);
@@ -33,6 +33,7 @@ int makeTheFrame(Lightfield * currField) {
 	for (i; i < NUM_FRAMING_IMAGES; ++it) {
 		
 		Mat H;
+		//opencv
 		res = calculateHomography(currField->frameImages.at(i), 
 					  currField->frameImages.at(i - 1), H);
 								  
