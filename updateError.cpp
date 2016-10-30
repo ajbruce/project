@@ -15,14 +15,11 @@ using namespace cv;
  *for each ray bundle, minimize the error function, which is
  * 1-(frac of area auv)
  */
-Coordinate findNextPose(LightfieldClass * currField) {
+Coordinate updateError(LightfieldClass * currField) {
 
-    int i = 0;
-    int j = 0;
-    int k = 0;
-    int l = 0;
-    //go through each ray bundle
-    for (i; i < currField->s; ++i) {
+	//go through each two points
+	std::vector<> iterator poseIter = currField->LightfieldStruct->first.begin();
+    	for (poseIter; poseIter != currField->LightfieldStruct->first.end(); ++poseIter) {
     	for (j; j < currField->t; ++j) {
     		for (k; k < currField->u; ++k) {
     			for (l; l < currField->v; ++l) {
