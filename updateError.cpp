@@ -10,13 +10,12 @@
 
 
 using namespace cv;
-using namespace std;
 
 /**
  *for each ray bundle, minimize the error function, which is
  * 1-(frac of area auv)
  */
-Coordinate findNextPose(Lightfield * currField) {
+Coordinate findNextPose(LightfieldClass * currField) {
 
     int i = 0;
     int j = 0;
