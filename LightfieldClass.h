@@ -19,7 +19,8 @@ using namespace std;
 #define POSE_RESOLUTION_X 120
 #define POSE_RESOLUTION_Y 160
 
-
+//essentially defines a ray bundle
+//have to calculate dimensions of the patch
 typedef pair<Point2f, int> pointAndPixel
 typedef map<Point2f, pointAndPixel> lightfieldStruct
 
