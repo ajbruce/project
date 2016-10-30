@@ -18,7 +18,7 @@ using namespace cv;
  *lightfield. If there is already data there, then it takes the
  *average
  */
-int getTheData(Lightfield * currField) {
+int getTheData(LightfieldClass * currField) {
 	
 	
 	vector<Mat *>::iterator it = currField->samplingPath.begin();
