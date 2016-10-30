@@ -17,7 +17,7 @@ using namespace cv;
  *from the image into our lightfield structure.
  *
  **/
-int rayFromImage(Lightfield * currfield, Mat * image, Mat * H, Mat * pose) {
+int rayFromImage(LightfieldClass * currfield, Mat * image, Mat * H, Mat * pose) {
  
 	for(int s = 0; s < POSE_RESOLUTION_X; ++s ) {
 		for(int t = 0; t < POSE_RESOLUTION_Y; ++t) {
