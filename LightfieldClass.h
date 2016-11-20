@@ -1,5 +1,6 @@
-#include <stdlib>
+#pragma once
 #include <vector>
+#include <map>
 #include <string>
 
 #include <opencv2/core/core.hpp>
@@ -21,26 +22,28 @@ using namespace std;
 
 //essentially defines a ray bundle
 //have to calculate dimensions of the patch
-typedef pair<Point2f, int> pointAndPixel
-typedef map<Point2f, pointAndPixel> lightfieldStruct
+typedef pair<Point2f, int> pointAndPixel;
+typedef map<Point2f, pointAndPixel> lightfieldStruct;
 
 class LightFieldClass {
 
+public:
+
 	lightfieldStruct lightfield;
-    vector <Mat *> frameImages;
+	vector <Mat *> frameImages;
 	vector <Mat> homographiesOfFrameImages;
 	vector <Mat> posesOfFrameImages;
-	
-    vector <Mat *> samplingPath;
-    
-    //dimensions- (s,t)-poses; (u,v)-points
-    int s;
-    int t;
-    int u;
-    int v;
-    //tolerance thresholds
-    int tMin;
-    int tMax;
+
+	vector <Mat *> samplingPath;
+
+	//dimensions- (s,t)-poses; (u,v)-points
+	int s;
+	int t;
+	int u;
+	int v;
+	//tolerance thresholds
+	int tMin;
+	int tMax;
 
 
 };
