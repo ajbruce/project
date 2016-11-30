@@ -1,16 +1,12 @@
-#ifndef _MTF_H_
-#define _MTF_H_
-
 #include <vector>
 #include <string>
+#include <iostream>
+#include "LightfieldClass.h"
+
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include <iostream>
 
-#include "LightFieldClass.h"
-#include "calculateHomography.cpp"
-#include "poseFromHomography.cpp"
-
+using namespace std;
 using namespace cv;
 
 /**
@@ -20,8 +16,10 @@ using namespace cv;
 *lightfield. If there is already data there, then it takes the
 *average
 */
-int makeTheFrame(LightFieldClass * currField) {
+//int LightFieldClass::makeTheFrame(LightFieldClass * currField) {
+	int LightFieldClass::makeTheFrame(void) {
 
+		LightFieldClass * currField = this;
 	Mat H;
 
 	int res = calculateHomography(currField->frameImages.at(0), currField->frameImages.at(0), H);
@@ -68,4 +66,3 @@ int makeTheFrame(LightFieldClass * currField) {
 	return SUCCESS;
 
 }
-#endif

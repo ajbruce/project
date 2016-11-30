@@ -18,9 +18,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="LightfieldProject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="makeTheFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -33,7 +30,7 @@
     <ClCompile Include="poseFromHomography.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LightfieldClass.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

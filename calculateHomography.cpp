@@ -1,10 +1,6 @@
-#ifndef _CH_H_
-#define _CH_H_
-
-#include <stdio.h>
-#include <iostream>
 #include <vector>
-
+#include <string>
+#include <iostream>
 #include "LightfieldClass.h"
 
 
@@ -20,16 +16,12 @@ using namespace cv;
 using namespace cv::xfeatures2d;
 
 
-#define FAILURE -1
-#define SUCCESS 0
-
-
 /**
  * Function that calculates the homography from the first image to the second.
  * 
  * TODO- when there is no match, need to return FAILURE
  **/
-int calculateHomography(Mat* img_object, Mat* img_scene, Mat & H) {
+int LightFieldClass::calculateHomography(Mat* img_object, Mat* img_scene, Mat & H) {
 
 	//-- Step 1: Detect the keypoints and extract descriptors using SURF
 	int minHessian = 400;
@@ -75,6 +67,3 @@ int calculateHomography(Mat* img_object, Mat* img_scene, Mat & H) {
 	return SUCCESS;
 
 }
-
-
-#endif

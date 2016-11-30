@@ -174,8 +174,7 @@
   <ItemGroup>
     <ClCompile Include="calculateHomography.cpp" />
     <ClCompile Include="getTheData.cpp" />
-    <ClCompile Include="LightfieldClass.cpp" />
-    <ClCompile Include="LightfieldProject.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="makeTheFrame.cpp" />
     <ClCompile Include="poseFromHomography.cpp" />
   </ItemGroup>

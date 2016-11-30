@@ -1,22 +1,16 @@
-#ifndef _PFH_H_
-#define _PFH_H_
-
 #include <vector>
 #include <string>
+#include <iostream>
 #include "LightfieldClass.h"
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include <iostream>
 
-using namespace cv;
 using namespace std;
+using namespace cv;
 
 
-#define FAILURE -1
-#define SUCCESS 0
-
-int poseFromHomography(const Mat& H, Mat& pose) {
+int LightFieldClass::poseFromHomography(const Mat& H, Mat& pose) {
 
 	pose = Mat::eye(3, 4, CV_32FC1);
 	float norm1 = (float)norm(H.col(0));
@@ -26,12 +20,12 @@ int poseFromHomography(const Mat& H, Mat& pose) {
 	Mat p1 = H.col(0);       // Pointer to first column of H
 	Mat p2 = pose.col(0);    // Pointer to first column of pose (empty)
 
-	cv::normalize(p1, p2);   // Normalize the rotation, and copies the column to pose
+	normalize(p1, p2);   // Normalize the rotation, and copies the column to pose
 
 	p1 = H.col(1);           // Pointer to second column of H
 	p2 = pose.col(1);        // Pointer to second column of pose (empty)
 
-	cv::normalize(p1, p2);   // Normalize the rotation and copies the column to pose
+	normalize(p1, p2);   // Normalize the rotation and copies the column to pose
 
 	p1 = pose.col(0);
 	p2 = pose.col(1);
@@ -44,4 +38,3 @@ int poseFromHomography(const Mat& H, Mat& pose) {
 
 	return SUCCESS;
 }
-#endif

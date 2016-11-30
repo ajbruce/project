@@ -1,18 +1,14 @@
-#ifndef _GTD_H_
-#define _GTD_H_
-
 #include <vector>
 #include <string>
+#include <iostream>
+#include "LightfieldClass.h"
+
+
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include <iostream>
 
-#include "LightfieldClass.h"
-#include "calculateHomography.cpp"
-#include "poseFromHomography.cpp"
-
+using namespace std;
 using namespace cv;
-
 /**
 *Function that adds the data from the image to the
 *lightfield.  Uses homography helper functions to find the
@@ -20,8 +16,10 @@ using namespace cv;
 *lightfield. If there is already data there, then it takes the
 *average
 */
-int getTheData(LightFieldClass * currField) {
+//int LightFieldClass::getTheData(LightFieldClass * currField) {
+int LightFieldClass::getTheData(void) {
 
+	LightFieldClass * currField = this;
 
 	vector<Mat *>::iterator it = currField->samplingPath.begin();
 
@@ -61,4 +59,3 @@ int getTheData(LightFieldClass * currField) {
 	}
 	return SUCCESS;
 }
-#endif

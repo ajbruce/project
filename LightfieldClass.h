@@ -4,22 +4,23 @@
 #include <vector>
 #include <map>
 #include <string>
-
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
 #include <iostream>
+
+#include "opencv2/core.hpp"
+#include "opencv2/imgproc.hpp"
+#include "opencv2/features2d.hpp"
+#include "opencv2/highgui.hpp"
+#include "opencv2/calib3d.hpp"
+
 
 using namespace std;
 using namespace cv;
 
 #define FAILURE -1
 #define SUCCESS 0
-
 #define NUM_FRAMING_IMAGES 6
-
 #define IMAGE_RESOLUTION_X 480
 #define IMAGE_RESOLUTION_Y 640
-
 #define POSE_RESOLUTION_X 120
 #define POSE_RESOLUTION_Y 160
 
@@ -48,15 +49,21 @@ public:
 	int tMin;
 	int tMax;
 
+	int calculateHomography(Mat* img_object, Mat* img_scene, Mat & H);
+	
+	int getTheData(void);
+	
+	//int getTheData(LightFieldClass * currField);
+
+	int makeTheFrame(void);
+
+//	int makeTheFrame(LightFieldClass * currField);
+	
+	int poseFromHomography(const Mat& H, Mat& pose);
+
 
 };
 
-//int calculateHomography(Mat* img_object, Mat* img_scene, Mat & H);
-//
-//int getTheData(LightFieldClass * currField);
-//
-//int makeTheFrame(LightFieldClass * currField);
-//
-//int poseFromHomography(const Mat& H, Mat& pose);
+
 
 #endif
