@@ -1,3 +1,6 @@
+#ifndef _GTD_H_
+#define _GTD_H_
+
 #include <vector>
 #include <string>
 #include <opencv2/core/core.hpp>
@@ -45,14 +48,17 @@ int getTheData(LightFieldClass * currField) {
 		Mat totalH = currField->homographiesOfFrameImages.at(i) * H;
 		Mat pose;
 
-		if (poseFromHomography(totalH, pose) == FAILURE) {
+		res = poseFromHomography(totalH, pose);
+
+		if (res == FAILURE) {
 			return FAILURE;
 		}
 
-		//call rayFromImage function	
-		if (rayFromImage(currField, image, totalH, pose) == FAILURE) {
-			return FAILURE;
-		}
+		////call rayFromImage function	
+		//if (rayFromImage(currField, image, totalH, pose) == FAILURE) {
+		//	return FAILURE;
+		//}
 	}
 	return SUCCESS;
 }
+#endif

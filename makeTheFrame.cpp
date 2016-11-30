@@ -1,3 +1,6 @@
+#ifndef _MTF_H_
+#define _MTF_H_
+
 #include <vector>
 #include <string>
 #include <opencv2/core/core.hpp>
@@ -19,6 +22,7 @@ using namespace cv;
 */
 int makeTheFrame(LightFieldClass * currField) {
 
+	Mat H;
 
 	int res = calculateHomography(currField->frameImages.at(0), currField->frameImages.at(0), H);
 
@@ -61,5 +65,7 @@ int makeTheFrame(LightFieldClass * currField) {
 		currField->posesOfFrameImages.at(k) = pose;
 	}
 
+	return SUCCESS;
 
 }
+#endif

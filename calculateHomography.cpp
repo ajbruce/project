@@ -1,7 +1,13 @@
+#ifndef _CH_H_
+#define _CH_H_
+
 #include <stdio.h>
 #include <iostream>
-#include <stdlib>
 #include <vector>
+
+#include "LightfieldClass.h"
+
+
 #include "opencv2/core.hpp"
 #include "opencv2/imgproc.hpp"
 #include "opencv2/features2d.hpp"
@@ -23,7 +29,7 @@ using namespace cv::xfeatures2d;
  * 
  * TODO- when there is no match, need to return FAILURE
  **/
-int calculateHomography(Mat* img_object, Mat* img_scene, Mat & H){
+int calculateHomography(Mat* img_object, Mat* img_scene, Mat & H) {
 
 	//-- Step 1: Detect the keypoints and extract descriptors using SURF
 	int minHessian = 400;
@@ -42,17 +48,17 @@ int calculateHomography(Mat* img_object, Mat* img_scene, Mat & H){
 
 	//-- Quick calculation of max and min distances between keypoints
 	for( int i = 0; i < descriptors_object.rows; i++ ){ 
-	double dist = matches[i].distance;
-	if( dist < min_dist ) min_dist = dist;
-	if( dist > max_dist ) max_dist = dist;
+		double dist = matches[i].distance;
+		if( dist < min_dist ) min_dist = dist;
+		if( dist > max_dist ) max_dist = dist;
 	}
 
 	//-- Draw only "good" matches (i.e. whose distance is less than 3*min_dist )
 	vector< DMatch > good_matches;
 	for( int i = 0; i < descriptors_object.rows; i++ ){ 
-	if( matches[i].distance <= 3*min_dist ){ 
-	  good_matches.push_back( matches[i]); 
-	}
+		if( matches[i].distance <= 3*min_dist ){ 
+			good_matches.push_back( matches[i]); 
+		}
 	}
 
 	//-- Localize the object
@@ -60,12 +66,15 @@ int calculateHomography(Mat* img_object, Mat* img_scene, Mat & H){
 	vector<Point2f> scene;
 
 	for( size_t i = 0; i < good_matches.size(); i++ ){
-	//-- Get the keypoints from the good matches
-	obj.push_back(keypoints_object[ good_matches[i].queryIdx ].pt);
-	scene.push_back(keypoints_scene[ good_matches[i].trainIdx ].pt);
+		//-- Get the keypoints from the good matches
+		obj.push_back(keypoints_object[ good_matches[i].queryIdx ].pt);
+		scene.push_back(keypoints_scene[ good_matches[i].trainIdx ].pt);
 	}
 	H = (findHomography( obj, scene, RANSAC));
 
 	return SUCCESS;
 
 }
+
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef _PFH_H_
+#define _PFH_H_
+
 #include <vector>
 #include <string>
 #include "LightfieldClass.h"
@@ -13,8 +16,8 @@ using namespace std;
 #define FAILURE -1
 #define SUCCESS 0
 
-int poseFromHomography(const Mat& H, Mat& pose)
-{
+int poseFromHomography(const Mat& H, Mat& pose) {
+
 	pose = Mat::eye(3, 4, CV_32FC1);
 	float norm1 = (float)norm(H.col(0));
 	float norm2 = (float)norm(H.col(1));
@@ -41,3 +44,4 @@ int poseFromHomography(const Mat& H, Mat& pose)
 
 	return SUCCESS;
 }
+#endif

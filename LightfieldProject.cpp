@@ -7,7 +7,7 @@
 
 #include "makeTheFrame.cpp"
 #include "getTheData.cpp"
-#include "LightfieldClass.h"
+//#include "LightfieldClass.h"
 
 
 using namespace cv;
@@ -29,8 +29,8 @@ int main(int argc, char** argv)
 	LightFieldClass * lightfield = new LightFieldClass();
 
 	Mat image;
-	int i;
-	for (int i; i < argc + 1; i++) {
+	int i = 0;
+	for (i; i < argc + 1; ++i) {
 
 		//loads image as grayscale
 		image = imread(argv[i + 1], CV_LOAD_IMAGE_GRAYSCALE);

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _LFC_H_
+#define _LFC_H_
+
 #include <vector>
 #include <map>
 #include <string>
@@ -8,6 +10,7 @@
 #include <iostream>
 
 using namespace std;
+using namespace cv;
 
 #define FAILURE -1
 #define SUCCESS 0
@@ -47,3 +50,13 @@ public:
 
 
 };
+
+//int calculateHomography(Mat* img_object, Mat* img_scene, Mat & H);
+//
+//int getTheData(LightFieldClass * currField);
+//
+//int makeTheFrame(LightFieldClass * currField);
+//
+//int poseFromHomography(const Mat& H, Mat& pose);
+
+#endif
