@@ -44,18 +44,25 @@ int LightFieldClass::getTheData(void) {
 		//find the total homography of current image from the first frame
 		//unclear if this matrix mult is in the correct order
 		Mat totalH = currField->homographiesOfFrameImages.at(i) * H;
-		Mat pose;
+		
+		vector<Point2f> imageCenter(1);
+		imageCenter[0] = cvPoint(IMAGE_RESOLUTION_X / 2, IMAGE_RESOLUTION_Y / 2);
+		vector<Point2f> cameraCenter(1);
+		perspectiveTransform(imageCenter, cameraCenter, totalH);
 
+		currField->lightfield.insert(make_pair(cameraCenter[0], image));
+
+		
+/**		Mat pose;
 		res = poseFromHomography(totalH, pose);
 
 		if (res == FAILURE) {
 			return FAILURE;
 		}
-
-		////call rayFromImage function	
-		//if (rayFromImage(currField, image, totalH, pose) == FAILURE) {
-		//	return FAILURE;
-		//}
 	}
+
+*/
+
+
 	return SUCCESS;
 }

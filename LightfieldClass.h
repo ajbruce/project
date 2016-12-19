@@ -26,8 +26,9 @@ using namespace cv;
 
 //essentially defines a ray bundle
 //have to calculate dimensions of the patch
-typedef pair<Point2f, int> pointAndPixel;
-typedef map<Point2f, pointAndPixel> lightfieldStruct;
+//typedef pair<Point2f, int> pointAndPixel;
+//typedef map<Point2f, pointAndPixel> lightfieldStruct;
+typedef map<Point2f, Mat *> lightfieldStruct;
 
 class LightFieldClass {
 
@@ -52,14 +53,12 @@ public:
 	int calculateHomography(Mat* img_object, Mat* img_scene, Mat & H);
 	
 	int getTheData(void);
-	
-	//int getTheData(LightFieldClass * currField);
 
 	int makeTheFrame(void);
-
-//	int makeTheFrame(LightFieldClass * currField);
 	
 	int poseFromHomography(const Mat& H, Mat& pose);
+
+	int findImageFromPose(Point2f uvCoord)
 
 
 };

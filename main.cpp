@@ -15,6 +15,7 @@ using namespace cv;
 * receive an array of images and create a lightfield
 *
 */
+//y is the ROW, x is the COL
 int main(int argc, char** argv)
 {
 	if (argc < 2)
@@ -67,6 +68,10 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
+
+	//TODO- get a pose from image
+	Point2f uvCoord;
+	res = lightfield->findImageFromPose(uvCoord);
 
 	return 0;
 }
