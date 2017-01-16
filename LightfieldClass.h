@@ -28,13 +28,21 @@ using namespace cv;
 //have to calculate dimensions of the patch
 //typedef pair<Point2f, int> pointAndPixel;
 //typedef map<Point2f, pointAndPixel> lightfieldStruct;
-typedef map<Point2f, Mat *> lightfieldStruct;
+
+struct lightfieldStructUnit {
+
+	Point2f position;
+	Mat * image;
+	Mat * homography;
+	vector<Point2f> corners;
+
+};
 
 class LightFieldClass {
 
 public:
 
-	lightfieldStruct lightfield;
+	vector<lightfieldStructUnit> lightfield;
 	vector <Mat *> frameImages;
 	vector <Mat> homographiesOfFrameImages;
 	vector <Mat> posesOfFrameImages;
@@ -58,7 +66,7 @@ public:
 	
 	int poseFromHomography(const Mat& H, Mat& pose);
 
-	int findImageFromPose(Point2f uvCoord)
+	int findImageFromPose(Mat pose);
 
 
 };

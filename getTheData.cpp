@@ -25,14 +25,14 @@ int LightFieldClass::getTheData(void) {
 
 	for (it; it != currField->samplingPath.end(); ++it) {
 
-		Mat H;
+		Mat * H = nullptr;
 		int res = FAILURE;
 		int i;
 
 		Mat * image = *it;
 
 		for (i = 0; i < NUM_FRAMING_IMAGES; ++i) {
-			res = calculateHomography(image, currField->frameImages.at(i), H);
+			res = calculateHomography(image, currField->frameImages.at(i), *H);
 			if (res == SUCCESS) {
 				break;
 			}
@@ -43,26 +43,30 @@ int LightFieldClass::getTheData(void) {
 
 		//find the total homography of current image from the first frame
 		//unclear if this matrix mult is in the correct order
-		Mat totalH = currField->homographiesOfFrameImages.at(i) * H;
-		
-		vector<Point2f> imageCenter(1);
-		imageCenter[0] = cvPoint(IMAGE_RESOLUTION_X / 2, IMAGE_RESOLUTION_Y / 2);
-		vector<Point2f> cameraCenter(1);
-		perspectiveTransform(imageCenter, cameraCenter, totalH);
+		Mat totalH = currField->homographiesOfFrameImages.at(i) * *H;
 
-		currField->lightfield.insert(make_pair(cameraCenter[0], image));
+		vector<Point2f> imageCenterAndCorners(5);
+		imageCenterAndCorners[0] = cvPoint(IMAGE_RESOLUTION_X / 2, IMAGE_RESOLUTION_Y / 2);
+		imageCenterAndCorners[1] = cvPoint(0, 0);
+		imageCenterAndCorners[2] = cvPoint(0, IMAGE_RESOLUTION_Y);
+		imageCenterAndCorners[3] = cvPoint(IMAGE_RESOLUTION_X, 0);
+		imageCenterAndCorners[4] = cvPoint(IMAGE_RESOLUTION_X, IMAGE_RESOLUTION_Y);
 
-		
-/**		Mat pose;
-		res = poseFromHomography(totalH, pose);
+		vector<Point2f> cameraCenterAndCorners(5);
+		perspectiveTransform(imageCenterAndCorners, cameraCenterAndCorners, totalH);
 
-		if (res == FAILURE) {
-			return FAILURE;
-		}
+		lightfieldStructUnit newUnit;
+		newUnit.position = cameraCenterAndCorners[0];
+		newUnit.image = image;
+		newUnit.homography = H;
+
+		cameraCenterAndCorners.erase(cameraCenterAndCorners.begin());
+
+		newUnit.corners = cameraCenterAndCorners;
+
+		currField->lightfield.push_back(newUnit);
+
 	}
-
-*/
-
 
 	return SUCCESS;
 }

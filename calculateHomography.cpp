@@ -9,11 +9,11 @@
 #include "opencv2/features2d.hpp"
 #include "opencv2/highgui.hpp"
 #include "opencv2/calib3d.hpp"
-#include "opencv2/xfeatures2d.hpp"
+//#include "opencv2/xfeatures2d.hpp"
 
 using namespace std;
 using namespace cv;
-using namespace cv::xfeatures2d;
+//using namespace cv::xfeatures2d;
 
 
 /**
@@ -25,7 +25,7 @@ int LightFieldClass::calculateHomography(Mat* img_object, Mat* img_scene, Mat & 
 
 	//-- Step 1: Detect the keypoints and extract descriptors using SURF
 	int minHessian = 400;
-	Ptr<SURF> detector = SURF::create( minHessian );
+	Ptr<ORB> detector = ORB::create( );
 	vector<KeyPoint> keypoints_object, keypoints_scene;
 	Mat descriptors_object, descriptors_scene;
 	detector->detectAndCompute( *img_object, Mat(), keypoints_object, descriptors_object );
