@@ -25,36 +25,23 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	string inputDirectory = "C:\\Users\\ajbruce\\workspace\\Project";
-	DIR *directory = opendir(inputDirectory.c_str());
-	struct dirent *_dirent = NULL;
-	if (directory == NULL)
-	{
-		printf("Cannot open Input Folder\n");
-		return 1;
-	}
+	vector<String> fn;
+	string path = "C:\\Users\\ajbruce\\workspace\\Project\\rectified\\*.png";
+	glob(path, fn, false);
+	// Now we have list of filenames in fn.
 
 	LightFieldClass * lightfield = new LightFieldClass();
 	int i = 0;
-	while ((_dirent = readdir(directory)) != NULL)
-	{
-		string fileName = inputDirectory + "\\" + string(_dirent->d_name);
-		Mat image = imread(fileName.c_str(), CV_LOAD_IMAGE_GRAYSCALE);
+	vector<String>::iterator it;
+	for (it = fn.begin(); it != fn.end(); ++it) {
+		Mat image = imread(*(it), CV_LOAD_IMAGE_GRAYSCALE);
 		if (image.data == NULL)
 		{
 			cout << "Error: Cannot Open Image: " << i << endl;
 			continue;
 		}
 
-		namedWindow("Display window", WINDOW_AUTOSIZE);// Create a window for display.
-		imshow("Display window", image);                   // Show our image inside it.
-
-		waitKey(0);
-
-		if (i < NUM_FRAMING_IMAGES) {
-			//resize the image so that it is the correct resulution
-			Size size(IMAGE_RESOLUTION_X, IMAGE_RESOLUTION_X);
-			cv::resize(image, image, size);
+  		if (i < NUM_FRAMING_IMAGES) {
 
 			//insert the resized image into the lightfield
 			lightfield->frameImages.push_back(&image);
@@ -65,7 +52,6 @@ int main(int argc, char** argv)
 		++i;
 
 	}
-	closedir(directory);
 
 	if (lightfield->makeTheFrame() == FAILURE) {
 		cout << "Error: could not create the frame" << endl;
