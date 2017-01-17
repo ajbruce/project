@@ -58,7 +58,7 @@ public:
 	int tMin;
 	int tMax;
 
-	int calculateHomography(Mat* img_object, Mat* img_scene, Mat & H);
+	int calculateHomography(Mat& img_object, Mat& img_scene, Mat & H);
 	
 	int getTheData(void);
 

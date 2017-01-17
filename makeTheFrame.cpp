@@ -19,10 +19,10 @@ using namespace cv;
 //int LightFieldClass::makeTheFrame(LightFieldClass * currField) {
 	int LightFieldClass::makeTheFrame(void) {
 
-		LightFieldClass * currField = this;
+	LightFieldClass * currField = this;
 	Mat H;
 
-	int res = calculateHomography(currField->frameImages.at(0), currField->frameImages.at(0), H);
+	int res = calculateHomography(*(currField->frameImages.at(0)), *(currField->frameImages.at(0)), H);
 
 	if (res == FAILURE) {
 		std::cout << "failed to find homography of: first" << std::endl;
