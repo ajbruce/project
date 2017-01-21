@@ -21,7 +21,7 @@ using namespace cv;
  * 
  * TODO- when there is no match, need to return FAILURE
  **/
-int LightFieldClass::calculateHomography(Mat& img_object, Mat& img_scene, Mat & H) {
+int LightFieldClass::calculateHomography(Mat& img_object, Mat& img_scene, Mat& H) {
 
 	//-- Step 1: Detect the keypoints using ORB Detector, compute the descriptors
 	int minHessian = 400;
@@ -44,49 +44,54 @@ int LightFieldClass::calculateHomography(Mat& img_object, Mat& img_scene, Mat & 
 	descriptors_1.convertTo(descriptors_1, CV_32F);
 	descriptors_2.convertTo(descriptors_2, CV_32F);
 
-	//-- Step 2: Matching descriptor vectors using FLANN matcher
-	BFMatcher matcher(NORM_L2);
-	std::vector< DMatch > matches;
+	std::vector<std::vector<cv::DMatch>> matches;
+	cv::BFMatcher matcher;
+	matcher.knnMatch(descriptors_1, descriptors_2, matches, 2);  // Find two nearest matches
+																 //look whether the match is inside a defined area of the image
+																 //only 25% of maximum of possible distance
+	double tresholdDist = 0.25 * 
+		sqrt(double(img_object.size().height*img_object.size().height +
+					img_object.size().width*img_object.size().width));
 
-	matcher.match(descriptors_1, descriptors_2, matches);
-
-	double max_dist = 0; double min_dist = 100;
-	//-- Quick calculation of max and min distances between keypoints
-	for (int i = 0; i < descriptors_1.rows; i++)
+	vector< DMatch > good_matches;
+	good_matches.reserve(matches.size());
+	for (size_t i = 0; i < matches.size(); ++i)
 	{
-		double dist = matches[i].distance;
-		if (dist < min_dist) min_dist = dist;
-		if (dist > max_dist) max_dist = dist;
-	}
-	printf("-- Max dist : %f \n", max_dist);
-	printf("-- Min dist : %f \n", min_dist);
-
-	//-- Draw only "good" matches (i.e. whose distance is less than 2*min_dist,
-	//-- or a small arbitary value ( 0.02 ) in the event that min_dist is very
-	//-- small)
-	//-- PS.- radiusMatch can also be used here.
-	std::vector< DMatch > good_matches;
-	for (int i = 0; i < descriptors_1.rows; i++)
-	{
-		if (matches[i].distance <= max(2 * min_dist, 0.02))
+		for (int j = 0; j < matches[i].size(); j++)
 		{
-			good_matches.push_back(matches[i]);
+			Point2f from = keypoints_1[matches[i][j].queryIdx].pt;
+			Point2f to = keypoints_2[matches[i][j].trainIdx].pt;
+
+			//calculate local distance for each possible match
+			double dist = sqrt((from.x - to.x) * (from.x - to.x) + (from.y - to.y) * (from.y - to.y));
+
+			//save as best match if local distance is in specified area and on same height
+			if (dist < tresholdDist && abs(from.y - to.y)<5)
+			{
+				good_matches.push_back(matches[i][j]);
+				j = matches[i].size();
+			}
 		}
 	}
-	//-- Draw "good" matches
+	
 	Mat img_matches;
 	drawMatches(img_object, keypoints_1, img_scene, keypoints_2,
 		good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
 		vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
 
-	//-- Show detected matches
-	imshow("Good Matches", img_matches);
-	for (int i = 0; i < (int)good_matches.size(); i++)
+	/*for (int i = 0; i < (int)good_matches.size(); i++)
 	{
-		printf("-- Good Match [%d] Keypoint 1: %d  -- Keypoint 2: %d  \n", 
-			   i, good_matches[i].queryIdx, good_matches[i].trainIdx);
+		printf("-- Good Match [%d] Keypoint 1: %d  -- Keypoint 2: %d  \n", i, good_matches[i].queryIdx, good_matches[i].trainIdx);
 	}
 
+	cout << "height: "<< img_matches.size().height << endl;
+	cout << "width: " << img_matches.size().width << endl;
+
+	//-- Show detected matches
+	imshow("Good Matches", img_matches);
+	waitKey(0);
+
+	*/
 
 	//-- Localize the object
 	vector<Point2f> obj;
@@ -97,12 +102,10 @@ int LightFieldClass::calculateHomography(Mat& img_object, Mat& img_scene, Mat & 
 		obj.push_back(keypoints_1[good_matches[i].queryIdx].pt);
 		scene.push_back(keypoints_2[good_matches[i].trainIdx].pt);
 	}
-
 	H = (findHomography(obj, scene, RANSAC));
-
-
+	cout << H << endl;
+	
 	return 0;
-
 
 }
 

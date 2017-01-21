@@ -18,30 +18,32 @@ using namespace cv;
 */
 //int LightFieldClass::makeTheFrame(LightFieldClass * currField) {
 	int LightFieldClass::makeTheFrame(void) {
-
 	LightFieldClass * currField = this;
 	Mat H;
 
-	int res = calculateHomography(*(currField->frameImages.at(0)), *(currField->frameImages.at(0)), H);
+	int res = calculateHomography(*(currField->frameImages.at(0)), 
+								  *(currField->frameImages.at(0)), H);
+
+	cout << H << endl;
 
 	if (res == FAILURE) {
 		std::cout << "failed to find homography of: first" << std::endl;
 		return res;
 	}
-	currField->homographiesOfFrameImages.at(0) = H;
+	currField->homographiesOfFrameImages.push_back(H);
 
 	for (int i = 1; i < NUM_FRAMING_IMAGES; ++i) {
 
 		Mat H;
 		//opencv
-		res = calculateHomography(currField->frameImages.at(i),
-			currField->frameImages.at(i - 1), H);
+		res = calculateHomography(*(currField->frameImages.at(i)),
+								  *(currField->frameImages.at(i - 1)), H);
 
 		if (res == FAILURE) {
 			std::cout << "failed to find homography of: " << i << std::endl;
 			return res;
 		}
-		currField->homographiesOfFrameImages.at(i) = H;
+		currField->homographiesOfFrameImages.push_back(H);
 	}
 
 	//now find total homographies.  first one is obviously 0. second one stays the same.	
@@ -54,14 +56,14 @@ using namespace cv;
 
 	}
 
-	//find total poses
-	for (int k = 0; k < NUM_FRAMING_IMAGES; ++k) {
-		Mat pose;
-		if (poseFromHomography(currField->homographiesOfFrameImages.at(k), pose) == FAILURE) {
-			return FAILURE;
-		}
-		currField->posesOfFrameImages.at(k) = pose;
-	}
+	////find total poses
+	//for (int k = 0; k < NUM_FRAMING_IMAGES; ++k) {
+	//	Mat pose;
+	//	if (poseFromHomography(currField->homographiesOfFrameImages.at(k), pose) == FAILURE) {
+	//		return FAILURE;
+	//	}
+	//	currField->posesOfFrameImages.at(k) = pose;
+	//}
 
 	return SUCCESS;
 

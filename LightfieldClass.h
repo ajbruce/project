@@ -44,11 +44,10 @@ public:
 
 	vector<lightfieldStructUnit> lightfield;
 	vector <Mat *> frameImages;
-	vector <Mat> homographiesOfFrameImages;
-	vector <Mat> posesOfFrameImages;
-
 	vector <Mat *> samplingPath;
 
+	vector <Mat> homographiesOfFrameImages;
+	
 	//dimensions- (s,t)-poses; (u,v)-points
 	int s;
 	int t;
@@ -57,6 +56,19 @@ public:
 	//tolerance thresholds
 	int tMin;
 	int tMax;
+
+	LightFieldClass() {
+	}
+	
+	~LightFieldClass() {
+/*
+		delete[] lightfield;
+		delete[] frameImages;
+		delete[] samplingPath;
+		delete[] homographiesOfFrameImages;
+		delete[] posesOfFrameImages;*/
+		
+	}
 
 	int calculateHomography(Mat& img_object, Mat& img_scene, Mat & H);
 	

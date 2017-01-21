@@ -26,31 +26,35 @@ int main(int argc, char** argv)
 	}
 
 	vector<String> fn;
-	string path = "C:\\Users\\ajbruce\\workspace\\Project\\rectified\\*.png";
+	string path = "C:\\Users\\ajbruce\\workspace\\Project\\small_data_set\\*.png";
 	glob(path, fn, false);
 	// Now we have list of filenames in fn.
 
+	if (fn.size() <= 6) {
+		return FAILURE;
+	}
+
+
+	Mat * allImages = new Mat[fn.size()];
 	LightFieldClass * lightfield = new LightFieldClass();
 	int i = 0;
+
 	vector<String>::iterator it;
 	for (it = fn.begin(); it != fn.end(); ++it) {
 		Mat image = imread(*(it), CV_LOAD_IMAGE_GRAYSCALE);
-		if (image.data == NULL)
-		{
+		if (image.data == NULL) {
 			cout << "Error: Cannot Open Image: " << i << endl;
 			continue;
 		}
-
+		allImages[i] = image;
   		if (i < NUM_FRAMING_IMAGES) {
-
 			//insert the resized image into the lightfield
-			lightfield->frameImages.push_back(&image);
+			lightfield->frameImages.push_back(&(allImages[i]));
 		}
 		else {
-			lightfield->samplingPath.push_back(&image);
+			lightfield->samplingPath.push_back(&(allImages[i]));
 		}
 		++i;
-
 	}
 
 	if (lightfield->makeTheFrame() == FAILURE) {
@@ -68,6 +72,10 @@ int main(int argc, char** argv)
 		cout << "Error: could not find the new image" << endl;
 		return -1;
 	}
+
+
+	delete[] allImages;
+	delete lightfield;
 
 	return 0;
 }

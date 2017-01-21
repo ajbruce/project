@@ -32,7 +32,7 @@ int LightFieldClass::getTheData(void) {
 		Mat * image = *it;
 
 		for (i = 0; i < NUM_FRAMING_IMAGES; ++i) {
-			res = calculateHomography(image, currField->frameImages.at(i), *H);
+			res = calculateHomography(*image, *(currField->frameImages.at(i)), *H);
 			if (res == SUCCESS) {
 				break;
 			}
