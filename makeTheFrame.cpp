@@ -16,8 +16,7 @@ using namespace cv;
 *lightfield. If there is already data there, then it takes the
 *average
 */
-//int LightFieldClass::makeTheFrame(LightFieldClass * currField) {
-	int LightFieldClass::makeTheFrame(void) {
+int LightFieldClass::makeTheFrame(void) {
 	LightFieldClass * currField = this;
 	Mat H;
 
@@ -28,6 +27,7 @@ using namespace cv;
 
 	if (res == FAILURE) {
 		std::cout << "failed to find homography of: first" << std::endl;
+
 		return res;
 	}
 	currField->homographiesOfFrameImages.push_back(H);
@@ -35,7 +35,6 @@ using namespace cv;
 	for (int i = 1; i < NUM_FRAMING_IMAGES; ++i) {
 
 		Mat H;
-		//opencv
 		res = calculateHomography(*(currField->frameImages.at(i)),
 								  *(currField->frameImages.at(i - 1)), H);
 
@@ -48,6 +47,30 @@ using namespace cv;
 
 	//now find total homographies.  first one is obviously 0. second one stays the same.	
 	for (int j = 2; j < NUM_FRAMING_IMAGES; ++j) {
+
+		Mat * H = new Mat(currField->homographiesOfFrameImages.at(j - 1) *
+			currField->homographiesOfFrameImages.at(j));
+		
+		vector<Point2f> imageCenterAndCorners(5);
+		imageCenterAndCorners[0] = cvPoint(IMAGE_RESOLUTION_X / 2, IMAGE_RESOLUTION_Y / 2);
+		imageCenterAndCorners[1] = cvPoint(0, 0);
+		imageCenterAndCorners[2] = cvPoint(0, IMAGE_RESOLUTION_Y);
+		imageCenterAndCorners[3] = cvPoint(IMAGE_RESOLUTION_X, 0);
+		imageCenterAndCorners[4] = cvPoint(IMAGE_RESOLUTION_X, IMAGE_RESOLUTION_Y);
+
+		vector<Point2f> cameraCenterAndCorners(5);
+		perspectiveTransform(imageCenterAndCorners, cameraCenterAndCorners, *H);
+
+		lightfieldStructUnit newUnit;
+		newUnit.position = cameraCenterAndCorners[0];
+		newUnit.image = frameImages[j];
+		newUnit.homography = H;
+
+		cameraCenterAndCorners.erase(cameraCenterAndCorners.begin());
+		newUnit.corners = cameraCenterAndCorners;
+
+		currField->lightfield.push_back(newUnit);
+
 
 		//check that this matrix mult is in the correct order
 		currField->homographiesOfFrameImages.at(j) =

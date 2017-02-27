@@ -18,7 +18,7 @@ using namespace cv;
 
 #define FAILURE -1
 #define SUCCESS 0
-#define NUM_FRAMING_IMAGES 6
+#define NUM_FRAMING_IMAGES 5
 #define IMAGE_RESOLUTION_X 480
 #define IMAGE_RESOLUTION_Y 640
 #define POSE_RESOLUTION_X 120

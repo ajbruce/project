@@ -46,7 +46,7 @@ int LightFieldClass::calculateHomography(Mat& img_object, Mat& img_scene, Mat& H
 
 	std::vector<std::vector<cv::DMatch>> matches;
 	cv::BFMatcher matcher;
-	matcher.knnMatch(descriptors_1, descriptors_2, matches, 2);  // Find two nearest matches
+	matcher.knnMatch(descriptors_1, descriptors_2, matches, 500);  // Find two nearest matches
 																 //look whether the match is inside a defined area of the image
 																 //only 25% of maximum of possible distance
 	double tresholdDist = 0.25 * 
@@ -79,19 +79,15 @@ int LightFieldClass::calculateHomography(Mat& img_object, Mat& img_scene, Mat& H
 		good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
 		vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
 
-	/*for (int i = 0; i < (int)good_matches.size(); i++)
-	{
+	/*for (int i = 0; i < (int)good_matches.size(); i++){
 		printf("-- Good Match [%d] Keypoint 1: %d  -- Keypoint 2: %d  \n", i, good_matches[i].queryIdx, good_matches[i].trainIdx);
 	}
 
-	cout << "height: "<< img_matches.size().height << endl;
-	cout << "width: " << img_matches.size().width << endl;
+	*/
 
 	//-- Show detected matches
 	imshow("Good Matches", img_matches);
 	waitKey(0);
-
-	*/
 
 	//-- Localize the object
 	vector<Point2f> obj;
@@ -102,12 +98,8 @@ int LightFieldClass::calculateHomography(Mat& img_object, Mat& img_scene, Mat& H
 		obj.push_back(keypoints_1[good_matches[i].queryIdx].pt);
 		scene.push_back(keypoints_2[good_matches[i].trainIdx].pt);
 	}
-	H = (findHomography(obj, scene, RANSAC));
-	cout << H << endl;
+	H = findHomography(obj, scene, RANSAC);
 	
 	return 0;
 
 }
-
-
-

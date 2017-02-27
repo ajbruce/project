@@ -30,13 +30,19 @@ int main(int argc, char** argv)
 	glob(path, fn, false);
 	// Now we have list of filenames in fn.
 
-	if (fn.size() <= 6) {
+	if (fn.size() < NUM_FRAMING_IMAGES) {
 		return FAILURE;
 	}
 
 
 	Mat * allImages = new Mat[fn.size()];
+	if (allImages == nullptr) {
+		return -1;
+	}
 	LightFieldClass * lightfield = new LightFieldClass();
+	if (lightfield == nullptr) {
+		return -1;
+	}
 	int i = 0;
 
 	vector<String>::iterator it;

@@ -24,15 +24,15 @@ int LightFieldClass::getTheData(void) {
 	vector<Mat *>::iterator it = currField->samplingPath.begin();
 
 	for (it; it != currField->samplingPath.end(); ++it) {
-
-		Mat * H = nullptr;
+		Mat H;
+		
 		int res = FAILURE;
 		int i;
 
 		Mat * image = *it;
 
 		for (i = 0; i < NUM_FRAMING_IMAGES; ++i) {
-			res = calculateHomography(*image, *(currField->frameImages.at(i)), *H);
+			res = calculateHomography(*image, *(currField->frameImages.at(i)), H);
 			if (res == SUCCESS) {
 				break;
 			}
@@ -43,7 +43,7 @@ int LightFieldClass::getTheData(void) {
 
 		//find the total homography of current image from the first frame
 		//unclear if this matrix mult is in the correct order
-		Mat totalH = currField->homographiesOfFrameImages.at(i) * *H;
+		Mat totalH = currField->homographiesOfFrameImages.at(i) * H;
 
 		vector<Point2f> imageCenterAndCorners(5);
 		imageCenterAndCorners[0] = cvPoint(IMAGE_RESOLUTION_X / 2, IMAGE_RESOLUTION_Y / 2);
@@ -58,7 +58,7 @@ int LightFieldClass::getTheData(void) {
 		lightfieldStructUnit newUnit;
 		newUnit.position = cameraCenterAndCorners[0];
 		newUnit.image = image;
-		newUnit.homography = H;
+		newUnit.homography = new Mat(totalH);
 
 		cameraCenterAndCorners.erase(cameraCenterAndCorners.begin());
 
